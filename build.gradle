@@ -8,7 +8,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
@@ -24,17 +23,18 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-configurations {
-    all {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-    }
+dependencies {
+    // Local
+    compile project(':TrafficTrackerServiceCommon')
+
+    // Spring related
+    compile ('org.springframework.boot:spring-boot-starter-web')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-dependencies {
-    compile ('org.springframework.boot:spring-boot-starter-web')
-    compile ('org.springframework.boot:spring-boot-starter-log4j2')
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.6'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6'
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+bootRun {
+    jvmArgs = ["-DgoogleApiKey=YOUR_GOOGLE_API_KEY",    // Go to https://console.developers.google.com/apis/dashboard?project to enable google api for Google Maps GeoCoding & Directions
+               "-Dlog4j.configurationFile=src/main/java/log4j2.xml"]
 }
