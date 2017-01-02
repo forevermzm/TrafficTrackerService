@@ -14,7 +14,6 @@ import pojo.json.GoogleAddress;
 import pojo.json.SrcDestPair;
 
 import java.time.Instant;
-import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static exceptions.RequestChecker.checkRequestInput;
@@ -50,10 +49,11 @@ public class DefaultSourceDestinationService {
         SourceDestinationPair ddbEntry = new SourceDestinationPair();
         ddbEntry.setId(pair.getId());
         ddbEntry.setPair(pair);
-        ddbEntry.setCreationDate(Date.from(Instant.now()));
+        ddbEntry.setCreationDate(Instant.now());
+
+        // Never updated.
+        ddbEntry.setLastUpdateTime(Instant.EPOCH);
 
         ddbDao.save(ddbEntry);
-
-
     }
 }
