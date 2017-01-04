@@ -1,5 +1,6 @@
 package hello;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -25,5 +28,11 @@ public class GreetingController {
         LOG.info("Receiving request for name: " + name);
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
+    }
+
+    @RequestMapping(value = "foo.csv")
+    public void fooAsCSV(HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain; charset=utf-8");
+        response.getWriter().print("a,b,c\n1,2,3\n3,4,5");
     }
 }
