@@ -30,6 +30,10 @@ dependencies {
     // Spring related
     compile ('org.springframework.boot:spring-boot-starter-web')
 
+    // Spring MVC
+    compile ("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile ("org.springframework.boot:spring-boot-devtools")
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

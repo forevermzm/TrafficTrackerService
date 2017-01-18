@@ -5,6 +5,7 @@ import dao.SourceDestinationTableDAO;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,8 @@ import pojo.json.GoogleAddress;
 import pojo.json.SrcDestPair;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static exceptions.RequestChecker.checkRequestInput;
@@ -46,6 +49,9 @@ public class DefaultSourceDestinationService {
                 .withSrcAddress(srcAddress)
                 .withDestAddress(destAddress)
                 .build();
+
+        checkRequestInput(ddbDao.read(pair.getId()) == null, "Pair already exists");
+
         SourceDestinationPair ddbEntry = new SourceDestinationPair();
         ddbEntry.setId(pair.getId());
         ddbEntry.setPair(pair);
@@ -56,4 +62,13 @@ public class DefaultSourceDestinationService {
 
         ddbDao.save(ddbEntry);
     }
+
+    @GetMapping
+    public List<SrcDestPair> getAll() {
+        return ddbDao.scan(100)
+                .stream()
+                .map(s -> s.getPair())
+                .collect(Collectors.toList());
+    }
+
 }

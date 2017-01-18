@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    Available Address Pairs
+</head>
+<body>
+    <table>
+        <tr th:each="pair : ${pairs}">
+            <td th:text="${pair.srcAddress.formattedAddress}"></td>
+            <td th:text="${pair.destAddress.formattedAddress}"></td>
+            <td><a th:href="@{'/pairs/trafficStatus?pairId=' + ${pair.id}}" th:text="trafficStatus"></a></td>
+        </tr>
+    </table>
+</body>
+</html>

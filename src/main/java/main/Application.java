@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import static com.google.common.base.Preconditions.checkArgument;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"hello", "aws", "service", "dao", "google"})
+@ComponentScan(basePackages = {"hello", "aws", "service", "dao", "google", "web"})
 public class Application {
     private final static Logger LOG = LogManager.getFormatterLogger();
 
