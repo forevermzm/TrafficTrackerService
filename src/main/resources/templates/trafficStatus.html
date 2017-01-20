@@ -18,6 +18,9 @@
         dataTable.addColumn('number', dest + " to " + src)
         for (var i = 0; i < data.data.length; i ++) {
             var row = []
+            if (data.data[i].duration == 0 || data.data[i].reverseDuration == 0) {
+                continue;
+            }
             row.push(data.data[i].time)
             row.push(data.data[i].duration)
             row.push(data.data[i].reverseDuration)
