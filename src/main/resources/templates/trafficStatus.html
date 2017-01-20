@@ -37,10 +37,22 @@
       }
     /*]]>*/
     </script>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Traffic Status Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <div id="curve_chart" style="width: 1600px; height: 900px"></div>
+    <div>
+        <p th:text="@{'Current traffic condition from [' + ${status.src} + '] to [' + ${status.dest} + ']'}"></p>
+        <iframe id="mapFrame"
+                width="100%"
+                height="450"
+                frameborder="0" style="border:0"
+                th:src="@{'https://www.google.com/maps/embed/v1/directions?key=' + ${apiKey} + '&amp;origin=' + ${status.src} + '&amp;destination=' + ${status.dest}}">
+        </iframe>
+    </div>
+    <div>
+        <p th:text="@{'Aggregated traffic condition from [' + ${status.src} + '] to [' + ${status.dest}} + ']'"></p>
+        <div id="curve_chart" style="width: 100%; height: 900px"></div>
+    </div>
 </body>
 </html>

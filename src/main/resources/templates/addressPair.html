@@ -8,7 +8,7 @@
         <tr th:each="pair : ${pairs}">
             <td th:text="${pair.srcAddress.formattedAddress}"></td>
             <td th:text="${pair.destAddress.formattedAddress}"></td>
-            <td><a th:href="@{'/pairs/trafficStatus?pairId=' + ${pair.id}}" th:text="trafficStatus"></a></td>
+            <td><a th:href="@{'/pairs/trafficStatus?path=' + ${pair.path}}" th:text="trafficStatus"></a></td>
         </tr>
     </table>
 </body>

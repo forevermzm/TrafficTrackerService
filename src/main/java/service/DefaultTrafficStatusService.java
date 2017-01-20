@@ -48,7 +48,7 @@ public class DefaultTrafficStatusService {
     public TrafficStatusData getTrafficStatusData(@RequestParam(value="path") String path) {
         checkRequestInput(Strings.isNotBlank(path), "Path cannot be empty.");
 
-        TrafficStatusDocument document = dao.read(path.replace('-', '/'));
+        TrafficStatusDocument document = dao.read(path);
 
         return convertData(document);
     }

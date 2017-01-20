@@ -1,6 +1,8 @@
 package web;
 
+import google.GeoContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pojo.json.TrafficStatusData;
 import service.DefaultSourceDestinationService;
 import service.DefaultTrafficStatusService;
 
@@ -22,11 +23,15 @@ public class AddressPairViewController {
     private final DefaultSourceDestinationService sourceDestinationService;
     private final DefaultTrafficStatusService trafficStatusService;
 
+    private final String apiKey;
+
     @Autowired
     public AddressPairViewController(DefaultSourceDestinationService sourceDestinationService,
-                                     DefaultTrafficStatusService trafficStatusService) {
+                                     DefaultTrafficStatusService trafficStatusService,
+                                     @Qualifier("GoogleApiKey") String googleApiKey) {
         this.sourceDestinationService = checkNotNull(sourceDestinationService);
         this.trafficStatusService = checkNotNull(trafficStatusService);
+        this.apiKey = googleApiKey;
     }
 
     @GetMapping
@@ -37,10 +42,11 @@ public class AddressPairViewController {
     }
 
     @GetMapping(path = "trafficStatus")
-    public ModelAndView getTrafficStatus(@RequestParam(value="pairId") String pairId) {
+    public ModelAndView getTrafficStatus(@RequestParam(value="path") String path) {
         ModelAndView mav = new ModelAndView("trafficStatus");
-        mav.addObject("pairId", pairId);
-        mav.addObject("status", trafficStatusService.getTrafficStatusData(pairId));
+        mav.addObject("path", path);
+        mav.addObject("status", trafficStatusService.getTrafficStatusData(path));
+        mav.addObject("apiKey", apiKey);
         return mav;
     }
 }

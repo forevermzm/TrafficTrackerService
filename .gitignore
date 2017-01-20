@@ -8,3 +8,4 @@ gradle
 *.iws
 .DS_Store
 result.xlsx
+logs
